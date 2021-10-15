@@ -13,12 +13,12 @@ int main(int argc, char *argv[])
 		{
 			FILE *fp = NULL;
 			fp = fopen(argv[i], "r");
-			char array[3000] = {0};
+			char tape[30000] = {0};
 			char *ptr;
-			ptr = array;
+			ptr = tape;
 			if (fp != NULL)
 			{
-				char code[1000];
+				char code[10000];
 				char *p;
 				p = code;
 				while (fscanf(fp, "%s", p) != EOF)
