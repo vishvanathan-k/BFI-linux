@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 				char code[1000];
 				char *p;
 				p = code;
-				fscanf(fp, "%s", p);
+				while(fscanf(fp, "%s", p) != EOF){
 				while (*p != '\0')
 				{
 					if (*p == '>')
@@ -41,13 +41,18 @@ int main(int argc, char *argv[])
 						int var = 0;
 						if (*ptr == 0)
 						{
-							while (*p != ']' && var != 0)
+							var++;
+
+							while (*p != ']' || var != 0)
 							{
-								if (*p == ']' && var != 0)
-									var--;
-								if (*p == '[')
-									var++;
 								p++;
+
+								if (*p == ']'){
+									var--;
+								}
+								if (*p == '['){
+									var++;
+								}
 							}
 						}
 					}
@@ -56,22 +61,24 @@ int main(int argc, char *argv[])
 						int var = 0;
 						if (*ptr != 0)
 						{
-							while (*p != '[' && var != 0)
+							var++;
+
+							while (*p != '[' || var != 0)
 							{
-								if (*p == '[' && var != 0)
-									var--;
-								if (*p == ']')
-									var++;
 								p--;
+
+								if (*p == '['){
+									var--;
+								}
+								if (*p == ']'){
+									var++;
+								}
 							}
 						}
 					}
 					p++;
 				}
-			}
-			for(int j = 0; j < 1000; j++){
-				if(array[j] == '\0') break;
-				printf("\n%d %d",j, array[j]);
+				}
 			}
 			fclose(fp);
 			printf("\n--- %s interpreted Successfully ---\n", argv[i]);
