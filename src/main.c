@@ -21,63 +21,80 @@ int main(int argc, char *argv[])
 				char code[1000];
 				char *p;
 				p = code;
-				while(fscanf(fp, "%s", p) != EOF){
-				while (*p != '\0')
+				while (fscanf(fp, "%s", p) != EOF)
 				{
-					if (*p == '>')
-						++ptr;
-					else if (*p == '<')
-						--ptr;
-					else if (*p == '+')
-						++*ptr;
-					else if (*p == '-')
-						--*ptr;
-					else if (*p == '.')
-						putchar(*ptr);
-					else if (*p == ',')
-						*ptr = getchar();
-					else if (*p == '[')
+					int loop_counter = 0;
+					while (*p != '\0' || *p != '\n')
 					{
-						int var = 0;
-						if (*ptr == 0)
+						switch (*p)
 						{
-							var++;
+							case '>':
+								++ptr;
+								break;
 
-							while (*p != ']' || var != 0)
-							{
-								p++;
+							case '<':
+								--ptr;
+								break;
 
-								if (*p == ']'){
-									var--;
+							case '+':
+								++*ptr;
+								break;
+
+							case '-':
+								--*ptr;
+								break;
+
+							case '.':
+								putchar(*ptr);
+								break;
+
+							case ',':
+								*ptr = getchar();
+								break;
+
+							case '[':
+								if (*ptr == 0)
+								{
+									loop_counter++;
+									while (*p != ']' || loop_counter != 0)
+									{
+										++p;
+										if (*p == ']')
+										{
+											--loop_counter;
+										}
+										if (*p == '[')
+										{
+											++loop_counter;
+										}
+									}
 								}
-								if (*p == '['){
-									var++;
+								break;
+
+							case ']':
+								if (*ptr != 0)
+								{
+									++loop_counter;
+									while (*p != '[' || loop_counter != 0)
+									{
+										--p;
+										if (*p == '[')
+										{
+											--loop_counter;
+										}
+										if (*p == ']')
+										{
+											++loop_counter;
+										}
+									}
 								}
-							}
+								break;
+
+							default:
+								break;
 						}
+						++p;
 					}
-					else if (*p == ']')
-					{
-						int var = 0;
-						if (*ptr != 0)
-						{
-							var++;
-
-							while (*p != '[' || var != 0)
-							{
-								p--;
-
-								if (*p == '['){
-									var--;
-								}
-								if (*p == ']'){
-									var++;
-								}
-							}
-						}
-					}
-					p++;
-				}
 				}
 			}
 			fclose(fp);
