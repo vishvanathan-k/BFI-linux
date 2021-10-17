@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 				while (fscanf(fp, "%s", p) != EOF)
 				{
 					int loop_counter = 0;
-					while (*p != '\0' || *p != '\n')
+					while (*p != '\0')
 					{
 						switch (*p)
 						{
